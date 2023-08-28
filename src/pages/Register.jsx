@@ -15,7 +15,7 @@ const Register = () => {
             E-mail
           </label>
           <input
-            autocomplete="off"
+            autoComplete="off"
             className="bg-transparent border-b-[1px] border-primary outline-none p-2"
             id="email"
             type="text"
@@ -26,7 +26,7 @@ const Register = () => {
             Nombre de usuario
           </label>
           <input
-            autocomplete="off"
+            autoComplete="off"
             className="bg-transparent border-b-[1px] border-primary outline-none p-2"
             id="name"
             type="text"
@@ -37,7 +37,7 @@ const Register = () => {
             Contraseña
           </label>
           <input
-            autocomplete="off"
+            autoComplete="off"
             className="bg-transparent border-b-[1px] border-primary outline-none p-2"
             id="password"
             type="password"
