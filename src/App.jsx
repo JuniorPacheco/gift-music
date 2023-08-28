@@ -9,6 +9,7 @@ import {
   Register,
   TrackDetail,
 } from "./pages";
+import Page404 from "./pages/Page404";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
       <Route path="/playlist/:id" element={<PlaylistDetail />} />
 
       <Route path="/playlist/public/:id" element={<PlaylistPublic />} />
+
+      <Route path="*" element={<Page404 />} />
     </Routes>
   );
 }
