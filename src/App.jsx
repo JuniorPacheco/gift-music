@@ -4,6 +4,7 @@ function App() {
 
   return (
     <>
+      <h2 className='text-2xl font-bold'>Hola mundo!</h2>
     </>
   )
 }
