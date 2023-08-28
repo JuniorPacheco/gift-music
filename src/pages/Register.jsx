@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import ContainerAuth from "../components/layout/ContainerAuth";
 
 const Register = () => {
   return (
-    <section className="min-h-screen font-urbanist grid bg-[#0F0817] text-white justify-stretch justify-items-center items-center p-4 bg-[url(/images/register-mobile.png)] bg-no-repeat bg-right sm:grid-cols-[auto_auto] sm:gap-10 sm:justify-center sm:justify-items-center">
+    <ContainerAuth>
       <header className="hidden sm:block max-w-[350px]">
         <img src="/images/register-header.png" alt="" />
       </header>
@@ -42,12 +43,14 @@ const Register = () => {
             type="password"
           />
         </div>
-        <button className="bg-secondary w-max p-2 uppercase rounded-full px-10 font-bold mx-auto shadow-lg shadow-indigo-500/50 hover:shadow-indigo-500 transition-shadow">Crear</button>
+        <button className="bg-secondary w-max p-2 uppercase rounded-full px-10 font-bold mx-auto shadow-lg shadow-indigo-500/50 hover:shadow-indigo-500 transition-shadow">
+          Crear
+        </button>
         <Link className="text-center" to="/auth/login">
           O iniciar sesión
         </Link>
       </form>
-    </section>
+    </ContainerAuth>
   );
 };
 export default Register;
