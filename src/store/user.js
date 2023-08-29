@@ -8,25 +8,29 @@ const initialUserState = {
   token: "",
 };
 
-const useUserStore = create((set) => ({
-  user: initialUserState,
-  loading: false,
-  login: async (infoLogin) => {
-    set({loading: true})
-    try{
-      const newUser = await loginService(infoLogin)
-      console.log(newUser)
-      set({newUser})
-      return true
-    }catch(e){
-      console.log(e)
-      return false
-    }finally{
-      set({loading: false})
+const useUserStore = create(
+  persist(
+    (set) => ({
+      user: initialUserState,
+      loading: false,
+      login: async (infoLogin) => {
+        set({ loading: true });
+        try {
+          const newUser = await loginService(infoLogin);
+          set({ user: newUser });
+          return true;
+        } catch (e) {
+          console.log(e);
+          return false;
+        } finally {
+          set({ loading: false });
+        }
+      },
+    }),
+    {
+      name: "userInfo",
     }
-  },
-}));
+  )
+);
 
-export {
-  useUserStore
-}
+export { useUserStore };
