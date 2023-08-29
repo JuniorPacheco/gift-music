@@ -10,6 +10,7 @@ import {
   TrackDetail,
 } from "./pages";
 import Page404 from "./pages/Page404";
+import PrivateRoutes from "./components/auth/PrivateRoutes";
 
 function App() {
   return (
@@ -17,11 +18,13 @@ function App() {
       <Route path="/auth/login" element={<Login />} />
       <Route path="/auth/register" element={<Register />} />
 
-      <Route path="/" element={<Home />} />
-      <Route path="/artist/:id" element={<ArtistDetail />} />
-      <Route path="/track/:id" element={<TrackDetail />} />
-      <Route path="/playlists" element={<Playlists />} />
-      <Route path="/playlist/:id" element={<PlaylistDetail />} />
+      <Route element={<PrivateRoutes />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/artist/:id" element={<ArtistDetail />} />
+        <Route path="/track/:id" element={<TrackDetail />} />
+        <Route path="/playlists" element={<Playlists />} />
+        <Route path="/playlist/:id" element={<PlaylistDetail />} />
+      </Route>
 
       <Route path="/playlist/public/:id" element={<PlaylistPublic />} />
 
