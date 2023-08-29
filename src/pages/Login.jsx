@@ -1,21 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ContainerAuth from "../components/layout/ContainerAuth";
-import { login } from "../services/auth";
-import { useState } from "react";
+import { useUserStore } from "../store/user";
 
 const Login = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const login = useUserStore((state) => state.login);
+  const isLoading = useUserStore((state) => state.loading);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target));
-    setIsLoading(true);
-    login(data)
-      .then((data) => {
-        //Almacenar la información en el estado global y redireccionar
-        console.log(data);
-      })
-      .finally(() => setIsLoading(false));
+    const res = await login(data);
+    if (res) navigate("/");
   };
 
   return (

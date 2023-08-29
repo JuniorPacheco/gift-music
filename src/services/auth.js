@@ -5,9 +5,9 @@ const register = async (dataUser) => {
   return data;
 };
 
-const login = async (dataUser) => {
+const loginService = async (dataUser) => {
   const { data } = await axiosMusic.post("/api/auth/login", dataUser);
   return data;
 };
 
-export { register, login };
+export { register, loginService };
