@@ -26,6 +26,9 @@ const useUserStore = create(
           set({ loading: false });
         }
       },
+      logout: () => {
+        set({user: initialUserState})
+      }
     }),
     {
       name: "userInfo",
