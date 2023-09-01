@@ -5,7 +5,7 @@ const TrackCard = ({ track }) => {
   return (
     <article className="flex gap-2 items-center transition-colors p-1 pr-2 rounded-md hover:bg-white/20">
       <header className="rounded-md overflow-hidden">
-        <img src={track.album.images[2].url} alt="" />
+        <img src={track.album.images[2]?.url} alt="" />
       </header>
       <section className="flex-1 grid gap-2 text-sm">
         <Link
