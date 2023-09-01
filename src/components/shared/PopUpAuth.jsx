@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom";
 import { useUserStore } from "../../store/user";
 import { IconLogOut, IconPlayMinimal } from "../icons/Icons";
+import { usePlaylistCart } from "../../store/playlistCart";
 
 const PopUpAuth = ({ showAccountOptions }) => {
   const logout = useUserStore((store) => store.logout);
+  const resetStart = usePlaylistCart((store) => store.resetStart);
+
+  const handleClickLogout = () => {
+    logout()
+    resetStart()
+  }
 
   return (
     <section
@@ -15,7 +22,7 @@ const PopUpAuth = ({ showAccountOptions }) => {
         <IconPlayMinimal /> Mis grabaciones
       </Link>
       <button
-        onClick={logout}
+        onClick={handleClickLogout}
         className="flex items-center gap-2 group hover:text-yellow-p uppercase"
       >
         <IconLogOut /> Cerrar Sesion

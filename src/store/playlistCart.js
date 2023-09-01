@@ -27,15 +27,18 @@ export const usePlaylistCart = create(
         const newTracks = tracks.filter((track) => track.id !== idToEdit);
         set({ tracks: newTracks });
       },
+      resetStart: () => {
+        set({ info: INITIAL_INFO, tracks: [] });
+      },
       createPlaylist: async () => {
         try {
-          const { info, tracks } = get();
+          const { info, tracks, resetStart } = get();
           const data = {
             ...info,
             tracks,
           };
           await axiosMusic.post("/api/playlists", data);
-          set({ info: INITIAL_INFO, tracks: [] });
+          resetStart();
         } catch (e) {
           console.log(e);
         }
