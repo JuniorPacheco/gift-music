@@ -29,3 +29,12 @@
 .card.back .back {
   transform: perspective(500px) rotateY(360deg);
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFE24B;
+  border-radius: 5px;
+}

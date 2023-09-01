@@ -4,11 +4,13 @@ import { useState } from "react";
 import { useUserStore } from "../../store/user";
 import PopUpAuth from "../shared/PopUpAuth";
 import PopUpPlaylist from "../shared/PopUpPlaylist";
+import { usePlaylistCart } from "../../store/playlistCart";
 
 const PrincipalLayout = ({ children }) => {
   const [showAccountOptions, setShowAccountOptions] = useState(false);
   const [showCurrentPlaylist, setShowCurrentPlaylist] = useState(false);
   const [showSideA, setShowSideA] = useState(true);
+  const tracks = usePlaylistCart(state => state.tracks)
 
   return (
     <section className="bg-black text-white font-urbanist min-h-screen overflow-hidden">
@@ -27,7 +29,7 @@ const PrincipalLayout = ({ children }) => {
             className="flex items-center gap-2 border-yellow-p border-[1px] rounded-full p-2 px-3"
           >
             <IconPlaylist />
-            <span>0</span>
+            <span>{tracks.length}</span>
           </button>
         </section>
 

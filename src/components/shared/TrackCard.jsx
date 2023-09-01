@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { IconAdd, IconPlay } from "../icons/Icons";
+import { usePlaylistCart } from "../../store/playlistCart";
 
 const TrackCard = ({ track }) => {
+  const addTrack = usePlaylistCart(state => state.addTrack)
+
   return (
     <article className="flex gap-2 items-center transition-colors p-1 pr-2 rounded-md hover:bg-white/20">
       <header className="rounded-md overflow-hidden">
@@ -25,7 +28,7 @@ const TrackCard = ({ track }) => {
         <Link to={track.uri} className="group">
           <IconPlay />
         </Link>
-        <button className="group">
+        <button onClick={() => addTrack(track)} className="group">
           <IconAdd />
         </button>
       </footer>
