@@ -8,6 +8,7 @@ const Home = () => {
   const [querySearch, setQuerySearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [limit, setLimit] = useState(10);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,7 +18,7 @@ const Home = () => {
   useEffect(() => {
     if (querySearch) {
       setIsLoading(true);
-      searchTracks(querySearch)
+      searchTracks(querySearch, limit)
         .then((data) => setSearchResults(data))
         .catch((err) => console.log(err))
         .finally(() => setIsLoading(false));
@@ -56,12 +57,15 @@ const Home = () => {
           disabled={isLoading}
           size={10}
         />
-        <select className="bg-transparent outline-none">
-          <option value="10">10</option>
+        <select value={limit} onChange={(e) => setLimit(e.target.value)} className="bg-transparent outline-none">
+          <option className="text-black" value="3">3</option>
+          <option className="text-black" value="5">5</option>
+          <option className="text-black" value="7">7</option>
+          <option className="text-black" value="10">10</option>
         </select>
       </form>
       <TrackList
-        tracks={searchResults.length ? searchResults : tracksRecommendations}
+        tracks={searchResults.length ? searchResults : tracksRecommendations.slice(0, limit)}
       />
     </ContainerMusic>
   );

@@ -1,8 +1,8 @@
 import TrackCard from "./TrackCard";
 
-const TrackList = ({ tracks, py = 10 }) => {
+const TrackList = ({ tracks, }) => {
   return (
-    <section className={"grid gap-2 py-6"}>
+    <section className={"grid gap-2 pt-6"}>
       {tracks.map((track) => (
         <TrackCard key={track.id} track={track} />
       ))}

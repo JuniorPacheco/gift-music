@@ -3,3 +3,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.card {
+  position: relative;
+}
+
+/* oculta o hace aparecer la parte de atras de una elemento */
+.card > div {
+  backface-visibility: hidden;
+  transition: transform 1s;
+}
+
+.card.front .front {
+  transform: perspective(500px) rotateY(0deg);
+}
+
+.card.front .back {
+  transform: perspective(500px) rotateY(180deg);
+}
+
+.card.back .front {
+  transform: perspective(500px) rotateY(180deg);
+}
+
+.card.back .back {
+  transform: perspective(500px) rotateY(360deg);
+}
