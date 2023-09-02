@@ -25,7 +25,7 @@ const Home = () => {
     } else {
       setSearchResults([]);
     }
-  }, [querySearch]);
+  }, [querySearch, limit]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -57,15 +57,31 @@ const Home = () => {
           disabled={isLoading}
           size={10}
         />
-        <select value={limit} onChange={(e) => setLimit(e.target.value)} className="bg-transparent outline-none">
-          <option className="text-black" value="3">3</option>
-          <option className="text-black" value="5">5</option>
-          <option className="text-black" value="7">7</option>
-          <option className="text-black" value="10">10</option>
+        <select
+          value={limit}
+          onChange={(e) => setLimit(e.target.value)}
+          className="bg-transparent outline-none"
+        >
+          <option className="text-black" value="3">
+            3
+          </option>
+          <option className="text-black" value="5">
+            5
+          </option>
+          <option className="text-black" value="7">
+            7
+          </option>
+          <option className="text-black" value="10">
+            10
+          </option>
         </select>
       </form>
       <TrackList
-        tracks={searchResults.length ? searchResults : tracksRecommendations.slice(0, limit)}
+        tracks={
+          searchResults.length
+            ? searchResults
+            : tracksRecommendations.slice(0, limit)
+        }
       />
     </ContainerMusic>
   );

@@ -7,7 +7,7 @@ const axiosMusic = axios.create({
 axiosMusic.interceptors.request.use((config) => {
   config.headers.Authorization = `JWT ${
     localStorage.getItem("userInfo") &&
-    JSON.parse(localStorage.getItem("userInfo")).state.user.token
+    JSON.parse(localStorage.getItem("userInfo"))?.state?.user?.token
   }`;
   return config;
 });

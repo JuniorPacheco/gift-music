@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -35,6 +35,6 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #FFE24B;
+  background: #ffe24b;
   border-radius: 5px;
 }
