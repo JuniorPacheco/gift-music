@@ -1,3 +1,4 @@
+import axios from "axios";
 import { axiosMusic } from "../utils/configAxios";
 
 const getPlaylistByUser = async () => {
@@ -6,7 +7,7 @@ const getPlaylistByUser = async () => {
 };
 
 const getPlaylistById = async (idPlaylist) => {
-  const { data } = await axiosMusic.get(`/api/playlists/${idPlaylist}`);
+  const { data } = await axiosMusic(`/api/playlists/${idPlaylist}`);
   return data;
 };
 

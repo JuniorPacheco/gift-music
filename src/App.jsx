@@ -20,13 +20,13 @@ function App() {
 
       <Route element={<PrivateRoutes />}>
         <Route path="/" element={<Home />} />
-        <Route path="/artist/:id" element={<ArtistDetail />} />
-        <Route path="/track/:id" element={<TrackDetail />} />
+        <Route path="/artists/:id" element={<ArtistDetail />} />
+        <Route path="/tracks/:id" element={<TrackDetail />} />
         <Route path="/playlists" element={<Playlists />} />
         <Route path="/playlists/:id" element={<PlaylistDetail />} />
       </Route>
 
-      <Route path="/playlist/public/:id" element={<PlaylistPublic />} />
+      <Route path="/playlists/public/:id" element={<PlaylistPublic />} />
 
       <Route path="*" element={<Page404 />} />
     </Routes>

@@ -12,13 +12,13 @@ const TrackCard = ({ track }) => {
       </header>
       <section className="flex-1 grid gap-2 text-sm">
         <Link
-          to={`/track/${track.id}`}
+          to={`/tracks/${track.id}`}
           className="font-bold line-clamp-1 hover:text-yellow-p transition-colors"
         >
           {track.name}
         </Link>
         <Link
-          to={`/artist/${track.artists[0].id}`}
+          to={`/artists/${track.artists[0].id}`}
           className="text-slate-400 line-clamp-1 hover:text-yellow-p transition-colors hover:font-semibold"
         >
           {track.artists[0]?.name}

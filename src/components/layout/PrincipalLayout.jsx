@@ -20,7 +20,7 @@ const PrincipalLayout = ({ children }) => {
   }, [showCurrentPlaylist]);
 
   return (
-    <section className="bg-black text-white font-urbanist min-h-screen overflow-hidden">
+    <section className="bg-black text-white font-urbanist min-h-screen overflow-hidden bg-[url(/images/register-bg-mobile.png)] bg-no-repeat bg-right-bottom sm:bg-[url(/images/register-bg-desktop.png)]">
       <header className="bg-purple-gradient flex justify-between p-4 uppercase font-bold items-center relative">
         <Link className="hover:text-yellow-p transition-colors" to="/">
           Gift music

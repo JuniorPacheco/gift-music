@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
-import { DeleteIcon } from "../icons/Icons";
+import { DeleteIcon, IconAdd, IconPlay } from "../icons/Icons";
 import { deleteTrackByPlaylist } from "../../services/playlist";
 import { useState } from "react";
 
-const TrackCardByPlaylist = ({ track, playlistId, deleteTrackOnPlaylist }) => {
+const TrackCardByPlaylist = ({
+  track,
+  playlistId,
+  deleteTrackOnPlaylist,
+  showPlayButton,
+  showDeleteButton,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClickDelete = () => {
@@ -21,26 +27,37 @@ const TrackCardByPlaylist = ({ track, playlistId, deleteTrackOnPlaylist }) => {
       </header>
       <section className="flex-1 grid gap-2 text-xs">
         <Link
-          to={`/track/${track.id}`}
+          to={`/tracks/${track.id}`}
           className="font-semibold line-clamp-1 hover:text-yellow-p transition-colors"
         >
           {track.name}
         </Link>
         <Link
-          to={`/artist/${track.artists[0].id}`}
+          to={`/artists/${track.artists[0].id}`}
           className="text-slate-300 line-clamp-1 hover:text-yellow-p transition-colors hover:font-semibold"
         >
           {track.artists[0]?.name}
         </Link>
       </section>
       <footer className="flex gap-2 items-center">
-        <button onClick={handleClickDelete} className="group">
-          {isLoading ? (
-            <i className="bx bx-loader-alt animate-spin text-xl"></i>
-          ) : (
-            <DeleteIcon />
-          )}
-        </button>
+        {showDeleteButton && (
+          <button onClick={handleClickDelete} className="group">
+            {isLoading ? (
+              <i className="bx bx-loader-alt animate-spin text-xl"></i>
+            ) : (
+              <DeleteIcon />
+            )}
+          </button>
+        )}
+        {showPlayButton && (
+          <Link to={track.uri} className="group">
+            {isLoading ? (
+              <i className="bx bx-loader-alt animate-spin text-xl"></i>
+            ) : (
+              <IconPlay />
+            )}
+          </Link>
+        )}
       </footer>
     </article>
   );
