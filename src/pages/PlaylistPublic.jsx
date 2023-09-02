@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
-import { SaveIcon, ShareIcon } from "../components/icons/Icons";
+import { useNavigate, useParams } from "react-router-dom";
+import { PlusIcon } from "../components/icons/Icons";
 import ContainerMusic from "../components/layout/ContainerMusic";
 import ContainerPublic from "../components/layout/ContainerPublic";
 import TracksListByPlaylist from "../components/playlistDetail/TracksListByPlaylist";
 import Loader from "../components/shared/loader/Loader";
-import { getPlaylistById } from "../services/playlist";
+import { getPlaylistById, updatePlaylist } from "../services/playlist";
+import Swal from "sweetalert2";
 
 const PlaylistPublic = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,9 +14,28 @@ const PlaylistPublic = () => {
   const [playlist, setPlaylist] = useState(null);
   const [isCopied, setIsCopied] = useState(false);
 
+  const navigate = useNavigate()
   const { id } = useParams();
 
   const formRef = useRef(null);
+
+  const handleShowAlert = () => {
+    Swal.fire({
+      html: '<b>¿Quieres crear una playlist para compartir?</b>',
+      showCancelButton: true,
+      color: "#fff",
+      width: 400,
+      background: "linear-gradient(98deg, #886AE2 43.66%, #A284F6 116.16%)",
+      confirmButtonColor: '#A284F6',
+      cancelButtonColor: '#A284F6',
+      confirmButtonText: 'Sí, crear cuenta',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/auth/register")
+      }
+    })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,86 +72,74 @@ const PlaylistPublic = () => {
   return (
     <ContainerPublic>
       <ContainerMusic>
-        <ContainerMusic>
-          {isLoading && !playlist && (
-            <div className="grid place-content-center pt-4">
-              <Loader />
-            </div>
-          )}
-          {playlist && (
-            <>
-              <form
-                ref={formRef}
-                onSubmit={handleSubmit}
-                id="formPlaylistCart"
-                className={`relative max-w-max mx-auto card w-[256px] ${
-                  showFront ? "front" : "back"
-                }`}
-              >
-                {/* Lado A (Frente) */}
-                <div className="front">
-                  <img className="w-full" src="/images/cassette.png" alt="" />
-                  <div className="flex bg-white absolute top-[20px] left-[22px] gap-2 p-2 py-1 w-[210px] rounded-md items-center text-black">
-                    <h4>{playlist?.title}</h4>
-                  </div>
-                  <button
-                    disabled={isLoading}
-                    type="submit"
-                    className="absolute bottom-4 right-14 group w-[32px] aspect-square border-2 rounded-full grid place-content-center hover:border-yellow-p transition-colors"
-                  >
-                    {isLoading ? (
-                      <i className="bx bx-loader-alt animate-spin text-xl"></i>
-                    ) : (
-                      <SaveIcon />
-                    )}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleClickCopy}
-                    disabled={isLoading}
-                    className="absolute bottom-4 right-4 group w-[32px] aspect-square border-2 rounded-full grid place-content-center hover:border-yellow-p transition-colors"
-                  >
-                    {isLoading ? (
-                      <i className="bx bx-loader-alt animate-spin text-xl"></i>
-                    ) : (
-                      <>
-                        {isCopied ? (
-                          <i className="bx bx-check text-lg"></i>
-                        ) : (
-                          <i className="bx bx-copy"></i>
-                        )}
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                {/* Lado B (Detras) */}
-                <div className="absolute top-0 left-0 back">
-                  <img src="/images/cassette.png" alt="" />
-                  <div className="flex bg-white absolute top-[20px] left-[22px] gap-2 p-2 py-1 w-[210px] rounded-md items-center text-black">
-                    <h4>{playlist?.to}</h4>
-                  </div>
-                  <div className="bg-white absolute top-[60px] left-[22px] gap-2 p-2 py-1 w-[210px] h-[90px] rounded-md items-center text-black">
-                    <h4>{playlist?.message}</h4>
-                  </div>
+        {isLoading && !playlist && (
+          <div className="grid place-content-center pt-4">
+            <Loader />
+          </div>
+        )}
+        {playlist && (
+          <>
+            <form
+              ref={formRef}
+              onSubmit={handleSubmit}
+              id="formPlaylistCart"
+              className={`relative max-w-max mx-auto card w-[256px] ${
+                showFront ? "front" : "back"
+              }`}
+            >
+              {/* Lado A (Frente) */}
+              <div className="front">
+                <img className="w-full" src="/images/cassette.png" alt="" />
+                <div className="flex bg-white absolute top-[20px] left-[22px] gap-2 p-2 py-1 w-[210px] rounded-md items-center text-black overflow-y-auto">
+                  <h4>{playlist?.title}</h4>
                 </div>
                 <button
-                  className="max-w-max mx-auto block p-1 px-4 border-2 rounded-full mt-4 hover:border-yellow-p hover:text-yellow-p transition-colors"
-                  type="button"
-                  onClick={() => setShowFront(!showFront)}
+                  onClick={handleShowAlert}
+                  type="submit"
+                  className="absolute bottom-4 right-14 group w-[32px] aspect-square border-2 rounded-full grid place-content-center hover:border-yellow-p transition-colors"
                 >
-                  {showFront ? "Lado B" : "Lado A"}
+                  <PlusIcon />
                 </button>
-              </form>
-              <TracksListByPlaylist
-                playlistId={id}
-                tracks={playlist?.tracks ?? []}
-                deleteTrackOnPlaylist={deleteTrackOnPlaylist}
-                showPlayButton
-              />
-            </>
-          )}
-        </ContainerMusic>
+                <button
+                  type="button"
+                  onClick={handleClickCopy}
+                  disabled={isLoading}
+                  className="absolute bottom-4 right-4 group w-[32px] aspect-square border-2 rounded-full grid place-content-center hover:border-yellow-p transition-colors"
+                >
+                  {isCopied ? (
+                    <i className="bx bx-check text-lg group-hover:text-yellow-p"></i>
+                  ) : (
+                    <i className="bx bx-copy group-hover:text-yellow-p"></i>
+                  )}
+                </button>
+              </div>
+
+              {/* Lado B (Detras) */}
+              <div className="absolute top-0 left-0 back">
+                <img src="/images/cassette.png" alt="" />
+                <div className="flex bg-white absolute top-[20px] left-[22px] gap-2 p-2 py-1 w-[210px] rounded-md items-center text-black overflow-y-auto">
+                  <h4>{playlist?.to}</h4>
+                </div>
+                <div className="bg-white absolute top-[60px] left-[22px] gap-2 p-2 py-1 w-[210px] h-[90px] rounded-md items-center text-black overflow-y-auto">
+                  <h4>{playlist?.message}</h4>
+                </div>
+              </div>
+              <button
+                className="max-w-max mx-auto block p-1 px-4 border-2 rounded-full mt-4 hover:border-yellow-p hover:text-yellow-p transition-colors"
+                type="button"
+                onClick={() => setShowFront(!showFront)}
+              >
+                {showFront ? "Lado B" : "Lado A"}
+              </button>
+            </form>
+            <TracksListByPlaylist
+              playlistId={id}
+              tracks={playlist?.tracks ?? []}
+              deleteTrackOnPlaylist={deleteTrackOnPlaylist}
+              showPlayButton
+            />
+          </>
+        )}
       </ContainerMusic>
     </ContainerPublic>
   );

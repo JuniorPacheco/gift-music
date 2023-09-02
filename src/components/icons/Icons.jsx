@@ -225,3 +225,34 @@ export const ShareIcon = () => {
     </svg>
   );
 };
+
+export const PlusIcon = () => {
+  return (
+    <svg
+      width="18"
+      height="19"
+      viewBox="0 0 18 19"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clipPath="url(#clip0_4027_2888)">
+        <path
+          d="M9.93574 1.70199H7.31567V7.16865H2.07555V9.90199H7.31567V15.3687H9.93574V9.90199H15.1759V7.16865H9.93574V1.70199Z"
+          fill="white"
+          className="group-hover:fill-yellow-p"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_4027_2888">
+          <rect
+            width="16.8281"
+            height="17.8477"
+            fill="white"
+            className="group-hover:fill-yellow-p"
+            transform="translate(0.495117 0.97168)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};

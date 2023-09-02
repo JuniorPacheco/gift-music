@@ -44,6 +44,7 @@ const PopUpPlaylist = ({ showCurrentPlaylist }) => {
                 size={10}
                 onFocus={() => setShowFront(true)}
                 required
+                autoComplete="off"
                 placeholder="Titulo"
                 className="bg-transparent flex-1 outline-none text-sm text-black"
                 type="text"
@@ -66,6 +67,7 @@ const PopUpPlaylist = ({ showCurrentPlaylist }) => {
                 onFocus={() => setShowFront(false)}
                 onChange={handleChange}
                 size={10}
+                autoComplete="off"
                 placeholder="Para"
                 className="bg-transparent flex-1 outline-none text-sm text-black"
                 type="text"
@@ -82,6 +84,7 @@ const PopUpPlaylist = ({ showCurrentPlaylist }) => {
                 required
                 onFocus={() => setShowFront(false)}
                 rows={4}
+                autoComplete="off"
                 placeholder="Mensaje"
                 className="bg-transparent flex-1 resize-none outline-none text-sm text-black"
                 type="text"
