@@ -13,6 +13,7 @@ export const usePlaylistCart = create(
     (set, get) => ({
       info: INITIAL_INFO,
       tracks: [],
+      isLoading: false,
       addTrack: (newTrack) => {
         const { tracks } = get();
         const isTrackAlreadyAdded = tracks.some(
@@ -28,7 +29,7 @@ export const usePlaylistCart = create(
         set({ tracks: newTracks });
       },
       resetStart: () => {
-        set({ info: INITIAL_INFO, tracks: [] });
+        set({ info: INITIAL_INFO, tracks: [], isLoading: false });
       },
       createPlaylist: async () => {
         try {
@@ -37,10 +38,13 @@ export const usePlaylistCart = create(
             ...info,
             tracks,
           };
+          set({ isLoading: true });
           await axiosMusic.post("/api/playlists", data);
           resetStart();
         } catch (e) {
           console.log(e);
+        } finally {
+          set({ isLoading: false });
         }
       },
       setInfo: (newInfo) => {

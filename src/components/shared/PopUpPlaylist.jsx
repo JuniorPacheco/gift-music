@@ -8,6 +8,7 @@ const PopUpPlaylist = ({ showCurrentPlaylist }) => {
   const tracks = usePlaylistCart((state) => state.tracks);
   const info = usePlaylistCart((state) => state.info);
   const setInfo = usePlaylistCart((state) => state.setInfo);
+  const isLoading = usePlaylistCart((state) => state.isLoading);
   const createPlaylist = usePlaylistCart((state) => state.createPlaylist);
 
   const handleChange = (e) => {
@@ -17,7 +18,6 @@ const PopUpPlaylist = ({ showCurrentPlaylist }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     createPlaylist();
-    console.log("submit")
   };
 
   return (
@@ -42,6 +42,7 @@ const PopUpPlaylist = ({ showCurrentPlaylist }) => {
                 value={info.title}
                 onChange={handleChange}
                 size={10}
+                onFocus={() => setShowFront(true)}
                 required
                 placeholder="Titulo"
                 className="bg-transparent flex-1 outline-none text-sm text-black"
@@ -62,6 +63,7 @@ const PopUpPlaylist = ({ showCurrentPlaylist }) => {
                 name="to"
                 value={info.to}
                 required
+                onFocus={() => setShowFront(false)}
                 onChange={handleChange}
                 size={10}
                 placeholder="Para"
@@ -78,6 +80,7 @@ const PopUpPlaylist = ({ showCurrentPlaylist }) => {
                 value={info.message}
                 onChange={handleChange}
                 required
+                onFocus={() => setShowFront(false)}
                 rows={4}
                 placeholder="Mensaje"
                 className="bg-transparent flex-1 resize-none outline-none text-sm text-black"
@@ -97,9 +100,12 @@ const PopUpPlaylist = ({ showCurrentPlaylist }) => {
         <button
           form="formPlaylistCart"
           disabled={tracks.length === 0}
-          className="uppercase text-sm p-1 px-4 border-2 rounded-full max-w-max block mx-auto mt-3 hover:border-yellow-p hover:text-yellow-p transition-colors"
+          className="uppercase text-base p-1 px-4 border-2 rounded-full max-w-max mx-auto mt-3 hover:border-yellow-p hover:text-yellow-p transition-colors flex gap-1 items-center"
         >
-          Crear
+          {tracks.length === 0 ? "Agrega Canciones" : "Crear"}
+          {isLoading && (
+            <i className="bx bx-loader-alt animate-spin text-base"></i>
+          )}
         </button>
       </header>
     </section>
