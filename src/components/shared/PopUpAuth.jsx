@@ -14,11 +14,11 @@ const PopUpAuth = ({ showAccountOptions }) => {
 
   return (
     <section
-      className={`absolute -bottom-2 translate-y-full bg-secondary border-[1px] border-yellow-p p-2 rounded-lg transition-[right] duration-300 ${
+      className={`absolute -bottom-2 z-20 translate-y-full bg-secondary border-[1px] border-yellow-p p-2 rounded-lg transition-[right] duration-300 ${
         showAccountOptions ? "right-4" : "-right-full"
       }`}
     >
-      <Link className="flex items-center gap-2 group hover:text-yellow-p uppercase">
+      <Link to={"/playlists"} className="flex items-center gap-2 group hover:text-yellow-p uppercase">
         <IconPlayMinimal /> Mis grabaciones
       </Link>
       <button

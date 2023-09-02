@@ -22,7 +22,7 @@ const PopUpPlaylist = ({ showCurrentPlaylist }) => {
 
   return (
     <section
-      className={`absolute -bottom-2 translate-y-full bg-secondary border-[1px] border-yellow-p p-2 rounded-lg transition-[right] w-[275px] duration-300  ${
+      className={`absolute -bottom-2 z-10 translate-y-full bg-secondary border-[1px] border-yellow-p p-2 rounded-lg transition-[right] w-[275px] duration-300  ${
         showCurrentPlaylist ? "right-4" : "-right-full"
       }`}
     >

@@ -15,7 +15,7 @@ const PrincipalLayout = ({ children }) => {
   return (
     <section className="bg-black text-white font-urbanist min-h-screen overflow-hidden">
       <header className="bg-purple-gradient flex justify-between p-4 uppercase font-bold items-center relative">
-        <h1>Gift music</h1>
+        <Link to="/">Gift music</Link>
 
         <section className="flex gap-4 text-sm sm:text-base">
           <button
