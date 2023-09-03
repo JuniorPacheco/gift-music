@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { DeleteIcon, IconAdd, IconPlay } from "../icons/Icons";
+import { DeleteIcon, IconPlay } from "../icons/Icons";
 import { deleteTrackByPlaylist } from "../../services/playlist";
 import { useState } from "react";
 

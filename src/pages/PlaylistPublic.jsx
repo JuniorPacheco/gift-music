@@ -1,50 +1,41 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PlusIcon } from "../components/icons/Icons";
 import ContainerMusic from "../components/layout/ContainerMusic";
 import ContainerPublic from "../components/layout/ContainerPublic";
 import TracksListByPlaylist from "../components/playlistDetail/TracksListByPlaylist";
 import Loader from "../components/shared/loader/Loader";
-import { getPlaylistById, updatePlaylist } from "../services/playlist";
-import Swal from "sweetalert2";
+import { getPlaylistById } from "../services/playlist";
+import { alertCreatePlaylist } from "../services/alerts";
+import { useQuery } from "@tanstack/react-query";
 
 const PlaylistPublic = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [showFront, setShowFront] = useState(true);
-  const [playlist, setPlaylist] = useState(null);
+  // const [playlist, setPlaylist] = useState(null);
   const [isCopied, setIsCopied] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const formRef = useRef(null);
 
-  const handleShowAlert = () => {
-    Swal.fire({
-      html: '<b>¿Quieres crear una playlist para compartir?</b>',
-      showCancelButton: true,
-      color: "#fff",
-      width: 400,
-      background: "linear-gradient(98deg, #886AE2 43.66%, #A284F6 116.16%)",
-      confirmButtonColor: '#A284F6',
-      cancelButtonColor: '#A284F6',
-      confirmButtonText: 'Sí, crear cuenta',
-      cancelButtonText: 'No'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        navigate("/auth/register")
-      }
-    })
-  }
+  const {
+    data: playlist,
+    isLoading,
+  } = useQuery({
+    queryKey: ["track", id],
+    queryFn: () => getPlaylistById(id),
+    keepPreviousData: true,
+    staleTime: Infinity,
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.target));
-    setIsLoading(true);
-    updatePlaylist(playlist.id, data)
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
+  const handleShowAlert = () => {
+    alertCreatePlaylist().then((result) => {
+      if (result.isConfirmed) {
+        navigate("/auth/register");
+      }
+    });
   };
 
   const handleClickCopy = () => {
@@ -55,19 +46,13 @@ const PlaylistPublic = () => {
       .finally(() => setTimeout(() => setIsCopied(false), 1000));
   };
 
-  const deleteTrackOnPlaylist = (trackId) => {
-    const currentTracks = playlist.tracks;
-    const newTracks = currentTracks.filter((track) => track.id !== trackId);
-    setPlaylist({ ...playlist, tracks: newTracks });
-  };
-
-  useEffect(() => {
-    setIsLoading(true);
-    getPlaylistById(id)
-      .then((data) => setPlaylist(data))
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
-  }, []);
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   getPlaylistById(id)
+  //     .then((data) => setPlaylist(data))
+  //     .catch((err) => console.log(err))
+  //     .finally(() => setIsLoading(false));
+  // }, [id]);
 
   return (
     <ContainerPublic>
@@ -79,9 +64,8 @@ const PlaylistPublic = () => {
         )}
         {playlist && (
           <>
-            <form
+            <section
               ref={formRef}
-              onSubmit={handleSubmit}
               id="formPlaylistCart"
               className={`relative max-w-max mx-auto card w-[256px] ${
                 showFront ? "front" : "back"
@@ -95,7 +79,7 @@ const PlaylistPublic = () => {
                 </div>
                 <button
                   onClick={handleShowAlert}
-                  type="submit"
+                  type="button"
                   className="absolute bottom-4 right-14 group w-[32px] aspect-square border-2 rounded-full grid place-content-center hover:border-yellow-p transition-colors"
                 >
                   <PlusIcon />
@@ -131,11 +115,10 @@ const PlaylistPublic = () => {
               >
                 {showFront ? "Lado B" : "Lado A"}
               </button>
-            </form>
+            </section>
             <TracksListByPlaylist
               playlistId={id}
               tracks={playlist?.tracks ?? []}
-              deleteTrackOnPlaylist={deleteTrackOnPlaylist}
               showPlayButton
             />
           </>

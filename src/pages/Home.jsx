@@ -1,39 +1,33 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ContainerMusic from "../components/layout/ContainerMusic";
 import { getTrackRecommendations, searchTracks } from "../services/tracks";
 import TrackList from "../components/shared/TrackList";
+import { useQuery } from "@tanstack/react-query";
 
 const Home = () => {
-  const [tracksRecommendations, setTracksRecommendations] = useState([]);
   const [querySearch, setQuerySearch] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [limit, setLimit] = useState(10);
+
+  const { data: tracksRecommendations, isLoading: isLoadingRecommendations } =
+    useQuery({
+      queryKey: ["trackRecommendations"],
+      queryFn: getTrackRecommendations,
+    });
+
+  const { data: searchResults, isFetching: isFetchingSearch } = useQuery({
+    queryKey: ["SearchTracks", querySearch],
+    queryFn: () => searchTracks(querySearch, 10),
+    enabled: querySearch !== "",
+    keepPreviousData: true,
+    staleTime: Infinity,
+  });
+
+  const generalIsLoagin = isLoadingRecommendations || isFetchingSearch;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setQuerySearch(e.target.querySearch.value);
   };
-
-  useEffect(() => {
-    if (querySearch) {
-      setIsLoading(true);
-      searchTracks(querySearch, limit)
-        .then((data) => setSearchResults(data))
-        .catch((err) => console.log(err))
-        .finally(() => setIsLoading(false));
-    } else {
-      setSearchResults([]);
-    }
-  }, [querySearch, limit]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    getTrackRecommendations()
-      .then((data) => setTracksRecommendations(data))
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
-  }, []);
 
   return (
     <ContainerMusic>
@@ -42,7 +36,7 @@ const Home = () => {
         className="bg-purple-gradient flex items-center gap-2 rounded-md px-4"
       >
         <button>
-          {isLoading ? (
+          {generalIsLoagin ? (
             <i className="bx bx-loader-alt animate-spin text-xl"></i>
           ) : (
             <img src="/images/icons/search.svg" />
@@ -54,7 +48,7 @@ const Home = () => {
           type="text"
           id="querySearch"
           autoComplete="off"
-          disabled={isLoading}
+          disabled={generalIsLoagin}
           size={10}
         />
         <select
@@ -76,13 +70,16 @@ const Home = () => {
           </option>
         </select>
       </form>
-      <TrackList
-        tracks={
-          searchResults.length
-            ? searchResults
-            : tracksRecommendations.slice(0, limit)
-        }
-      />
+
+      {tracksRecommendations && (
+        <TrackList
+          tracks={
+            searchResults
+              ? searchResults.slice(0, limit)
+              : tracksRecommendations.slice(0, limit)
+          }
+        />
+      )}
     </ContainerMusic>
   );
 };

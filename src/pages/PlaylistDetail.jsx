@@ -1,25 +1,24 @@
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import ContainerMusic from "../components/layout/ContainerMusic";
 import {
   PencilIcon,
   SaveIcon,
   ShareIcon,
   TrashIcon,
 } from "../components/icons/Icons";
-import { useEffect, useRef, useState } from "react";
+import ContainerMusic from "../components/layout/ContainerMusic";
+import TracksListByPlaylist from "../components/playlistDetail/TracksListByPlaylist";
+import Loader from "../components/shared/loader/Loader";
 import {
   deletePlaylist,
   getPlaylistById,
   updatePlaylist,
 } from "../services/playlist";
-import TracksListByPlaylist from "../components/playlistDetail/TracksListByPlaylist";
-import Loader from "../components/shared/loader/Loader";
 
 const PlaylistDetail = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showFront, setShowFront] = useState(true);
   const [playlist, setPlaylist] = useState(null);
-  const [isCopied, setIsCopied] = useState(false);
 
   const navigate = useNavigate();
 
@@ -56,7 +55,7 @@ const PlaylistDetail = () => {
       .then((data) => setPlaylist(data))
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (playlist) {
@@ -94,7 +93,7 @@ const PlaylistDetail = () => {
                   size={10}
                   required
                   onFocus={() => setShowFront(true)}
-                  autocomple="off"
+                  autoComplete="off"
                   placeholder="Titulo"
                   className="bg-transparent flex-1 outline-none text-sm text-black"
                   type="text"
@@ -134,13 +133,7 @@ const PlaylistDetail = () => {
                 {isLoading ? (
                   <i className="bx bx-loader-alt animate-spin text-xl"></i>
                 ) : (
-                  <>
-                    {isCopied ? (
-                      <i className="bx bx-check text-lg"></i>
-                    ) : (
-                      <ShareIcon />
-                    )}
-                  </>
+                  <ShareIcon />
                 )}
               </Link>
             </div>
@@ -153,7 +146,7 @@ const PlaylistDetail = () => {
                   id="playlistDetail-to"
                   name="to"
                   required
-                  autocomple="off"
+                  autoComplete="off"
                   size={10}
                   onFocus={() => setShowFront(false)}
                   placeholder="Para"
@@ -169,7 +162,7 @@ const PlaylistDetail = () => {
                   id="playlistDetail-message"
                   name="message"
                   required
-                  autocomple="off"
+                  autoComplete="off"
                   rows={4}
                   onFocus={() => setShowFront(false)}
                   placeholder="Mensaje"

@@ -1,25 +1,26 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
-import ContainerMusic from "../components/layout/ContainerMusic";
-import { useEffect, useState } from "react";
-import { getArtistById } from "../services/artists";
 import "swiper/css";
+import ContainerMusic from "../components/layout/ContainerMusic";
 import SliderAlbums from "../components/shared/SliderAlbums";
 import TrackList from "../components/shared/TrackList";
 import Loader from "../components/shared/loader/Loader";
+import { getArtistById } from "../services/artists";
 
 const ArtistDetail = () => {
-  const [artist, setArtist] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
   const { id } = useParams();
 
-  useEffect(() => {
-    setIsLoading(true);
-    getArtistById(id)
-      .then((data) => setArtist(data))
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
-  }, [id]);
+  const {
+    data: artist,
+    isLoading,
+    isFetching,
+  } = useQuery({
+    queryKey: ["artist", id],
+    queryFn: () => getArtistById(id),
+    keepPreviousData: true,
+    staleTime: Infinity,
+  });
+  
   return (
     <ContainerMusic>
       <Link
@@ -31,13 +32,13 @@ const ArtistDetail = () => {
 
       <div
         className={`top-2 right-2 absolute transition-opacity z-10 ${
-          isLoading && artist ? "opacity-100" : "opacity-0"
+          !isLoading && isFetching ? "opacity-100" : "opacity-0"
         }`}
       >
         <Loader />
       </div>
 
-      {isLoading && !artist && (
+      {isLoading && (
         <div className="grid place-content-center">
           <Loader />
         </div>
