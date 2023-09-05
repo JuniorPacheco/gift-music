@@ -127,6 +127,7 @@ const PlaylistDetail = () => {
               </button>
               <Link
                 to={`/playlists/public/${playlist.id}`}
+                target="_blank"
                 disabled={isLoading}
                 className="absolute bottom-4 right-4 group w-[32px] aspect-square border-2 rounded-full grid place-content-center hover:border-yellow-p transition-colors"
               >
