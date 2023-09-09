@@ -9,6 +9,8 @@ const TrackCardByPlaylist = ({
   deleteTrackOnPlaylist,
   showPlayButton,
   showDeleteButton,
+  showSongButton,
+  setTrackToShowSong
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,6 +59,15 @@ const TrackCardByPlaylist = ({
               <IconPlay />
             )}
           </Link>
+        )}
+        {showSongButton && (
+          <button onClick={() => setTrackToShowSong(track.spotifyId)} className="group">
+            {isLoading ? (
+              <i className="bx bx-loader-alt animate-spin text-xl"></i>
+            ) : (
+              <IconPlay />
+            )}
+          </button>
         )}
       </footer>
     </article>

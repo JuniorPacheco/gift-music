@@ -6,8 +6,9 @@ const TracksListByPlaylist = ({
   deleteTrackOnPlaylist,
   showPlayButton,
   showDeleteButton,
+  showSongButton,
+  setTrackToShowSong,
 }) => {
-  console.log(tracks);
   return (
     <section className="mt-4 grid gap-2">
       {tracks.map((track) => (
@@ -18,6 +19,8 @@ const TracksListByPlaylist = ({
           deleteTrackOnPlaylist={deleteTrackOnPlaylist}
           showPlayButton={showPlayButton}
           showDeleteButton={showDeleteButton}
+          showSongButton={showSongButton}
+          setTrackToShowSong={setTrackToShowSong}
         />
       ))}
     </section>

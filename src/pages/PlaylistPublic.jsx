@@ -1,29 +1,24 @@
-import { useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PlusIcon } from "../components/icons/Icons";
 import ContainerMusic from "../components/layout/ContainerMusic";
 import ContainerPublic from "../components/layout/ContainerPublic";
 import TracksListByPlaylist from "../components/playlistDetail/TracksListByPlaylist";
 import Loader from "../components/shared/loader/Loader";
-import { getPlaylistById } from "../services/playlist";
+import PlaySong from "../components/trackDetail/PlaySong";
 import { alertCreatePlaylist } from "../services/alerts";
-import { useQuery } from "@tanstack/react-query";
+import { getPlaylistById } from "../services/playlist";
 
 const PlaylistPublic = () => {
-  // const [isLoading, setIsLoading] = useState(false);
   const [showFront, setShowFront] = useState(true);
-  // const [playlist, setPlaylist] = useState(null);
   const [isCopied, setIsCopied] = useState(false);
+  const [trackToShowSong, setTrackToShowSong] = useState(null);
 
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const formRef = useRef(null);
-
-  const {
-    data: playlist,
-    isLoading,
-  } = useQuery({
+  const { data: playlist, isLoading } = useQuery({
     queryKey: ["track", id],
     queryFn: () => getPlaylistById(id),
     keepPreviousData: true,
@@ -46,14 +41,6 @@ const PlaylistPublic = () => {
       .finally(() => setTimeout(() => setIsCopied(false), 1000));
   };
 
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   getPlaylistById(id)
-  //     .then((data) => setPlaylist(data))
-  //     .catch((err) => console.log(err))
-  //     .finally(() => setIsLoading(false));
-  // }, [id]);
-
   return (
     <ContainerPublic>
       <ContainerMusic>
@@ -65,7 +52,6 @@ const PlaylistPublic = () => {
         {playlist && (
           <>
             <section
-              ref={formRef}
               id="formPlaylistCart"
               className={`relative max-w-max mx-auto card w-[256px] ${
                 showFront ? "front" : "back"
@@ -116,10 +102,13 @@ const PlaylistPublic = () => {
                 {showFront ? "Lado B" : "Lado A"}
               </button>
             </section>
+
+            {trackToShowSong && <PlaySong trackId={trackToShowSong} />}
             <TracksListByPlaylist
               playlistId={id}
               tracks={playlist?.tracks ?? []}
-              showPlayButton
+              showSongButton
+              setTrackToShowSong={setTrackToShowSong}
             />
           </>
         )}

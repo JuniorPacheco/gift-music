@@ -14,7 +14,7 @@ const PopUpAuth = ({ showAccountOptions }) => {
 
   return (
     <section
-      className={`absolute -bottom-2 z-20 translate-y-full bg-secondary border-[1px] border-yellow-p p-2 rounded-lg transition-[right] duration-300 ${
+      className={`absolute -bottom-2 z-30 translate-y-full bg-secondary border-[1px] border-yellow-p p-2 rounded-lg transition-[right] duration-300 ${
         showAccountOptions ? "right-4" : "-right-full"
       }`}
     >
