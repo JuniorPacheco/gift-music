@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosMusic = axios.create({
-  baseURL: "https://playlist-share-dev.fl0.io",
+  baseURL: "https://backend-final-project-wo31.onrender.com",
 });
 
 axiosMusic.interceptors.request.use((config) => {
@@ -12,5 +12,4 @@ axiosMusic.interceptors.request.use((config) => {
   return config;
 });
 
-axiosMusic.de;
 export { axiosMusic };

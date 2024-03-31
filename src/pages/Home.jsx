@@ -12,7 +12,7 @@ const Home = () => {
     useQuery({
       queryKey: ["trackRecommendations"],
       queryFn: getTrackRecommendations,
-      staleTime: Infinity
+      staleTime: Infinity,
     });
 
   const { data: searchResults, isFetching: isFetchingSearch } = useQuery({
